@@ -7,8 +7,16 @@ const server = http.createServer((req, res) => {
 
   if(pathName === '/' || pathName === '/overview') {
     res.end('This is the OVERVIEW');
-  } else if(pathName ==='/product') {
+  } else if(pathName === '/product') {
     res.end('This is the PRODUCT');
+  } else if( pathName === '/api') {
+    fs.readFile(`${__dirname}/dev-data/data.json`, 'utf-8', (err, data) => {
+      const productData = JSON.parse(data);
+      res.writeHead(200, { 'Content-type': 'application/json' });
+      //console.log(productData);
+      res.end(data);
+    });
+
   } else {
     res.writeHead(404, {
       'Content-type': 'text/html'
