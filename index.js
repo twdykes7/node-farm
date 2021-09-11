@@ -8,14 +8,18 @@ const tempCard = fs.readFileSync(`${__dirname}/template/template-card.html`, 'ut
 const tempProduct = fs.readFileSync(`${__dirname}/template/product.html`, 'utf-8');
 
 const data = fs.readFileSync(`${__dirname}/dev-data/data.json`, 'utf-8');
-const productData = JSON.parse(data);
+const dataObj = JSON.parse(data);
 
 const server = http.createServer((req, res) => {
   const pathName = req.url;
 
   // Overview page
   if(pathName === '/' || pathName === '/overview') {
-    res.end('This is the OVERVIEW');
+    res.writeHead(200, { 'Content-type': 'text/html' });
+
+    const cardsHtml = dataObj.map(el => replaceTemplate(tempCard, el))
+
+    res.end(tempOverview);
 
   // Product page
   } else if(pathName === '/product') {
