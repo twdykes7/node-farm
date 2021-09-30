@@ -8,7 +8,6 @@ const slugify = require('slugify');
 //own modules
 const replaceTemplate = require('./modules/replaceTemplate');
 
-///// Server
 // const replaceTemplate = (temp, product) => {
 //   let output = temp.replace(/{%PRODUCTNAME%}/g, product.productName);
 //   output = output.replace(/{%IMAGE%}/g, product.image);
@@ -33,11 +32,15 @@ const tempProduct = fs.readFileSync(`${__dirname}/template/product.html`, 'utf-8
 const data = fs.readFileSync(`${__dirname}/dev-data/data.json`, 'utf-8');
 const dataObj = JSON.parse(data);
 
+const slugs = dataObj.map(el => slugify(el.productName, { lower: true}))
+// console.log(slugs);
+
+console.log(slugify('Fresh Avocados', { lower: true }))
+
+// Server
 const server = http.createServer((req, res) => {
 
-  // console.log(req.url);
   const { query, pathname } = (url.parse(req.url, true));
-  // const pathname = req.url;
 
   // Overview page
   if(pathname === '/' || pathname === '/overview') {
@@ -45,7 +48,6 @@ const server = http.createServer((req, res) => {
 
     const cardsHtml = dataObj.map(el => replaceTemplate(tempCard, el)).join('');
     const output = tempOverview.replace('{%PRODUCT_CARDS%}', cardsHtml);
-    //console.log(cardsHtml);
 
     res.end(output);
 
