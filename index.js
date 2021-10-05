@@ -22,7 +22,6 @@ const replaceTemplate = require('./modules/replaceTemplate');
 //     output = output.replace(/{%NOT_ORGANIC%}/g, 'not-organic');
 //   }
 //   return output;
-
 // }
 
 const tempOverview = fs.readFileSync(`${__dirname}/template/overview.html`, 'utf-8');
@@ -32,7 +31,7 @@ const tempProduct = fs.readFileSync(`${__dirname}/template/product.html`, 'utf-8
 const data = fs.readFileSync(`${__dirname}/dev-data/data.json`, 'utf-8');
 const dataObj = JSON.parse(data);
 
-const slugs = dataObj.map(el => slugify(el.productName, { lower: true}))
+const slugs = dataObj.map(el => slugify(el.productName, { lower: true }))
 // console.log(slugs);
 
 console.log(slugify('Fresh Avocados', { lower: true }))
